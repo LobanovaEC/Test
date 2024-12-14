@@ -4,28 +4,28 @@ from .database import Base
 
 class Author(Base):
     __tablename__ = "authors"
-    id = Column(Integer, primary_key=True, index=True)
-    first_name = Column(String, index=True)
-    last_name = Column(String, index=True)
-    birth_date = Column(Date)
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    first_name: Mapped[str]  = mapped_column(index=True)
+    last_name: Mapped[str] = mapped_column(index=True)
+    birth_date: Mapped[date]  = mapped_column(nullable=True)
 
 class Book(Base):
     __tablename__ = "books"
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, index=True)
-    description = Column(String)
-    author_id = Column(Integer, ForeignKey("authors.id"))
-    available_copies = Column(Integer, default=1)
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    title: Mapped[str] = mapped_column(index=True)
+    description: Mapped[str] = mapped_column()
+    author_id: Mapped[str] =  mapped_column(ForeignKey("authors.id"))
+    available_copies: Mapped[int] = mapped_column(default=1)
 
     author = relationship("Author")
 
 class Borrow(Base):
     __tablename__ = "borrows"
-    id = Column(Integer, primary_key=True, index=True)
-    book_id = Column(Integer, ForeignKey("books.id"))
-    reader_name = Column(String)
-    borrow_date = Column(Date)
-    return_date = Column(Date)
+    id: Mapped[int]  = mapped_column(primary_key=True, index=True)
+    book_id: Mapped[int] = mapped_column(ForeignKey("books.id"))
+    reader_name: Mapped[str] = mapped_column()
+    borrow_date: Mapped[date] = mapped_column()
+    return_date: Mapped[date] = mapped_column()
 
     book = relationship("Book")
 
