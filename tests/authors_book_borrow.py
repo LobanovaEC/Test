@@ -16,33 +16,33 @@ def test_create_author():
 
 def test_create_book():
     author_response = client.post("/authors/", json={
-        "first_name": "Jane",
-        "last_name": "Austen",
-        "birth_date": "1775-12-16"
+        "first_name": "Женя",
+        "last_name": "осипова",
+        "birth_date": "1995-12-16"
     })
     author_id = author_response.json()["id"]
 
     response = client.post("/books/", json={
-        "title": "Pride and Prejudice",
-        "description": "A classic novel",
+        "title": "Преступление и наказание",
+        "description": "классика",
         "author_id": author_id,
         "available_copies": 5
     })
     assert response.status_code == 200
-    assert response.json()["title"] == "Pride and Prejudice"
+    assert response.json()["title"] == "Преступление и наказание"
 
 
 def test_borrow_book():
     author_response = client.post("/authors/", json={
-        "first_name": "Emily",
-        "last_name": "Bronte",
-        "birth_date": "1818-07-30"
+        "first_name": "Эмилия",
+        "last_name": "Ивнова",
+        "birth_date": "1888-07-20"
     })
     author_id = author_response.json()["id"]
 
     book_response = client.post("/books/", json={
-        "title": "Wuthering Heights",
-        "description": "A classic tale",
+        "title": "Му-Му",
+        "description": "классика",
         "author_id": author_id,
         "available_copies": 2
     })
@@ -50,11 +50,11 @@ def test_borrow_book():
 
     borrow_response = client.post("/borrows/", json={
         "book_id": book_id,
-        "reader_name": "Alice",
-        "borrow_date": "2024-01-01"
+        "reader_name": "Алиса",
+        "borrow_date": "2024-01-03"
     })
     assert borrow_response.status_code == 200
-    assert borrow_response.json()["reader_name"] == "Alice"
+    assert borrow_response.json()["reader_name"] == "Алиса"
     assert borrow_response.json()["book_id"] == book_id
 
 
@@ -68,7 +68,7 @@ def test_return_book():
 
     book_response = client.post("/books/", json={
         "title": "1984",
-        "description": "Dystopian novel",
+        "description": "Фантастика",
         "author_id": author_id,
         "available_copies": 3
     })
@@ -76,7 +76,7 @@ def test_return_book():
 
     borrow_response = client.post("/borrows/", json={
         "book_id": book_id,
-        "reader_name": "Bob",
+        "reader_name": "Боря",
         "borrow_date": "2024-01-01"
     })
     borrow_id = borrow_response.json()["id"]
